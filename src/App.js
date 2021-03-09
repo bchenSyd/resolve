@@ -1,7 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 import MiniFormik from "./screens/miniFormik";
-import SignupForm from "./screens/formikBag";
+import FormikBag from "./screens/formikBag";
+import FormikContext from "./screens/formikContext";
 
 const StyledApp = styled.div`
   text-align: center;
@@ -20,7 +21,8 @@ const App = () => {
   return (
     <StyledApp>
       <StyledMain>
-        <SignupForm />
+        <FormikContext />
+        {/* <FormikBag /> */}
         {/* <MiniFormik /> */}
       </StyledMain>
     </StyledApp>
