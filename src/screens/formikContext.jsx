@@ -6,14 +6,35 @@ const SignupForm = () => {
   return (
     <Formik
       initialValues={{ firstName: "", lastName: "", email: "" }}
-      validationSchema={Yup.object({
-        firstName: Yup.string()
-          .max(15, "Must be 15 characters or less")
-          .required("Required"),
-        lastName: Yup.string()
-          .max(20, "Must be 20 characters or less")
-          .required("Required"),
-        email: Yup.string().email("Invalid email address").required("Required"),
+      validationSchema={yup.object().shape({
+        inputPhone: yup
+          .string()
+          .when('inputMobile', (inputMobile: string, schema: any) =>
+            inputMobile
+              ? schema
+              : schema.required(
+                  getContent('payroll.contacts.inputPhone.error.required')
+                )
+          )
+          .test(
+            'phone-format',
+            getContent('payroll.contacts.inputPhone.error.format'),
+            (value) => validators.australiaPhone(value)
+          ),
+        inputMobile: yup
+          .string()
+          .when('inputPhone', (inputPhone: any, schema: any) =>
+            inputPhone
+              ? schema
+              : schema.required(
+                  getContent('payroll.contacts.inputMobile.error.required')
+                )
+          )
+          .test(
+            'mobile-format',
+            getContent('payroll.contacts.inputMobile.error.format'),
+            (value) => validators.australianMobilePhone(value)
+          ),
       })}
       onSubmit={(values, { setSubmitting }) => {
         setTimeout(() => {
